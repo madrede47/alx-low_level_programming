@@ -1,44 +1,50 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
-
+#include <stdlib.h>
 /**
- * main - prints the minimum number of coins to
- * make change for an amount of money
- * @argc: number of arguments
- * @argv: array of arguments
- *
- * Return: 0 (Success), 1 (Error)
- */
-int main(int argc, char *argv[])
+  *argstostr - concatenates all arguments of the program.
+  *@ac: argument count.
+  *@av: pointer to array of size ac.
+  *Return: NULL if ac == 0 or av == null, Pointer to new string.
+  *NULL on fail.
+  */
+char *argstostr(int ac, char **av)
 {
-	int num, j, result;
-	int coins[] = {25, 10, 5, 2, 1};
+	int i, j, k, size;
+	char *arg;
 
-	if (argc != 2)
+	size = 0;
+	k = 0;
+	if (ac == 0 || av == NULL)
+		return (NULL);
+	i = 0;
+	while (i < ac)
 	{
-		printf("Error\n");
-		return (1);
-	}
-
-	num = atoi(argv[1]);
-	result = 0;
-
-	if (num < 0)
-	{
-		printf("0\n");
-		return (0);
-	}
-
-	for (j = 0; j < 5 && num >= 0; j++)
-	{
-		while (num >= coins[j])
+		j = 0;
+		while (av[i][j])
 		{
-			result++;
-			num -= coins[j];
+			size++;
+			j++;
 		}
+		size++;
+		i++;
 	}
-
-	printf("%d\n", result);
-	return (0);
+	arg = malloc((sizeof(char) * size) + 1);
+	if (arg == NULL)
+		return (NULL);
+	i = 0;
+	while (i < ac)
+	{
+		j = 0;
+		while (av[i][j])
+		{
+			arg[k] = av[i][j];
+			j++;
+			k++;
+		}
+		arg[k] = '\n';
+		k++;
+		i++;
+	}
+	arg[k] = '\0';
+	return (arg);
 }
